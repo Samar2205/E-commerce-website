@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="mainpage.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	
+    
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+	<title>
+		Checkout 
+	</title>
+</head>
+<body>
+<div class="container">
+	<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+            <input type="hidden" name="cmd" value="_cart">
+            <input type="hidden" name="upload" value="1">
+            <input type="hidden" name="business" value="seller@dezignerfotos.com">
+            <table class="table table-hover">
+                        <thead class="thead-inverse">
+                            <tr>
+                                <th>Qty</th>
+                                <th>Item Name</th>
+                                <th>Cost</th>
+                                <th class="text-xs-right">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="output"> </tbody>
+                    </table>
+                    <input type="submit" class="btn btn-primary btn-block" value="Checkout">
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+
+<script>
+	var shopcart = [];
+
+$(document).ready(function(){
+	outputCart();
+	    $("#output").on("change keyup",".dynqua",function(){
+		var itemInfo = $(this.dataset)[0];
+		itemInfo.qty = 1;
+		var itemInCart = false;
+		$.each(shopcart,function(index,value){
+			if (value.id == itemInfo.id) {
+				value.qty = parseInt(value.qty) + parseInt(itemInfo.qty);
+				itemInCart = true;
+			}
+		})
+		if (!itemInCart) {
+			shopcart.push(itemInfo);
+		}															
+		sessionStorage["sca"] = JSON.stringify(shopcart);
+		outputCart();
+	})
+	function outputCart() {
+		if (sessionStorage["sca"] != null) {
+			shopcart = JSON.parse(sessionStorage["sca"].toString());	
+		}
+		$("#checkoutdiv").show;
+var holderHtml = "";
+	var total = 0;
+	var itemCount = 0;
+	$.each(shopcart, function(index, value) {
+		var subTotal = value.qty * value.price;
+		total = total + subTotal;
+		itemCount = itemCount + parseInt(value.qty);
+		holderHtml = holderHtml + '<tr><td>' + value.qty + '</td><td>' + value.id + ' ' + value.name + '(' + value.s + ')</td><td> ' + formatMoney(value.price) + ' </td><td class="text-xs-right"> ' + formatMoney(subTotal) + '</td></tr>';
+	})
+	holderHtml = holderHtml + '<tr><td colspan="3" class="text-xs-right">Total</td><td class="text-xs-right">' + formatMoney(total) + '</td></tr>';
+	$("#output").html(holderHtml);
+	$(".total").html(formatMoney(total));
+	$(".items").html(itemCount);
+	}
+	function formatMoney(n) {
+                return 'Rs' + n;
+            }
+
+})
+</script>
+</body>
+</html>

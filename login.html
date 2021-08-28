@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+        .text:focus{
+        	background-color: #ADD8E6;
+        }
+		body{
+			background-image: url("https://www.thoughtco.com/thmb/Y0u9dMhdSXvKQh10yOBoUu-C7vk=/3435x2576/smart/filters:no_upscale()/abstract-paper-flower-pattern-656688606-5acfba2eae9ab80038461ca0.jpg");
+			background-size: cover;
+		}
+		#p1{
+			font-family: cursive;
+			font-size: 20px;
+			color: maroon;
+		}
+		#sub1{
+			background-color: aqua;
+		}
+		#p2{
+            color: aqua;
+            font-family: cursive;
+		}
+		#p3{
+            color: aqua;
+            font-family: cursive;
+		}
+	</style>
+	<title>
+		Login page
+	</title>
+</head>
+<body>
+<center>
+<form name="form1" class="form1" action="bank system.html" onsubmit="return redirect()">
+<p id="p1"></p>
+<p id="p2">Username</p>
+<input type="text" name="text1" class="text">
+<p id="p3">Password</p>
+<input type="password" name="pass1" class="text" ><br><br>
+<input type="submit" name="sub1">
+</form>
+</center>
+<script>
+function redirect(){
+	var a=document.form1.text1.value;
+	var b=document.form1.pass1.value;
+	if (a=="Samar2205" && b=="password"){
+        return true;
+	}
+	else{
+		document.getElementById("p1").innerHTML="Invalid credentials";
+		return false;
+	}
+}
+	
+</script>
+</body>
+</html>
